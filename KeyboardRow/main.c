@@ -1,6 +1,4 @@
-#include <stdio.h>
-
-char** findWords(char** words, int wordsSize, int* returnSize) 
+char** findWords(char** words, int wordsSize, int* returnSize)
 {
     char alphabet[58];
     char** result;
@@ -8,6 +6,8 @@ char** findWords(char** words, int wordsSize, int* returnSize)
     int j;
     int flag;
     char tmpchar[2];
+    if(!wordsSize)
+        return 0;
     int indexres[wordsSize];
     int wordlen;
     *returnSize = 0;
@@ -45,10 +45,24 @@ char** findWords(char** words, int wordsSize, int* returnSize)
        for(j=0;j<wordlen;j++)
        {
             tmpchar[j%2] = alphabet[words[i][j]-'A'];
-            if(j!=0 && (tmpchar[j%2+1]-tmpchar[j%2])!=0)
+            if(j!=0)
             {
-                flag = 0;
-                break;
+                if(j%2==0)
+                {
+                    if((tmpchar[j%2]-tmpchar[j%2+1])!=0)
+                    {
+                        flag = 0;
+                        break;
+                    }
+                }
+                else
+                {
+                    if((tmpchar[j%2]-tmpchar[j%2-1])!=0)
+                    {
+                        flag = 0;
+                        break;
+                    }
+                }
             }
        }
        if(flag)
@@ -65,23 +79,20 @@ char** findWords(char** words, int wordsSize, int* returnSize)
     }
     return result;
 }
-
 int main(int argc, char *argv[])
 {
     char **words;
     int returnSize;
     int **result;
     int i;
-    words = (char**)malloc(sizeof(char*)*4);
-    words[0] = (char*)malloc(sizeof(char)*6);
-    words[1] = (char*)malloc(sizeof(char)*7);
-    words[2] = (char*)malloc(sizeof(char)*4);
-    words[3] = (char*)malloc(sizeof(char)*6);
-    memcpy(words[0], "hello", strlen("hello"));    
-    memcpy(words[1], "Alaska", strlen("Alaska"));    
-    memcpy(words[2], "Dad", strlen("Dad"));    
-    memcpy(words[3], "Peace", strlen("Peace"));    
-    result = findWords(words, 4, &returnSize); 
+    words = (char**)malloc(sizeof(char*)*3);
+    words[0] = (char*)malloc(sizeof(char)*(strlen("asdfghjkla")+1));
+    words[1] = (char*)malloc(sizeof(char)*(strlen("qwertyuiopq")+1));
+    words[2] = (char*)malloc(sizeof(char)*(strlen("zxcvbnzzm")+1));
+    memcpy(words[0], "asdfghjkla", strlen("asdfghjkla"));
+    memcpy(words[1], "qwertyuiopq", strlen("qwertyuiopq"));
+    memcpy(words[2], "zxcvbnzzm", strlen("zxcvbnzzm"));
+    result = findWords(words, 3, &returnSize);
     for(i=0;i<returnSize;i++)
     {
         printf("%s\n", result[i]);
