@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-
+int count = 0;
 void swap(int *a, int *b)
 {
     int tmp;
@@ -9,9 +9,8 @@ void swap(int *a, int *b)
     *b = tmp;
 }
 
-int perm(int list[], int k, int m)
+int perm(int list[], int k, int m,int* result)
 {
-    static int count = 0;
     int i;
     int tmp = 0;
 	if(k > m)
@@ -24,7 +23,8 @@ int perm(int list[], int k, int m)
         }
         if(tmp == m+1)
         {
-            count++;
+            count = count +1;
+            //*result = *result + 1;
         }
     }
 	else
@@ -32,27 +32,30 @@ int perm(int list[], int k, int m)
 		for(i = k; i <= m; i++)         
         {             
             swap(&list[k], &list[i]);             
-            perm(list, k + 1, m);             
+            perm(list, k + 1, m, result);             
             swap(&list[k], &list[i]);
         }  
 	}
-    return count;
 }
 int countArrangement(int N)
 {
     int list[N];
     int i;
+    int *result;
+    result = (int *)malloc(sizeof(int));
+    *result = 0;
     for(i=0;i<N;i++)
     {
         list[i] = i+1;
     }
-    return perm(list, 0, N-1);     
+    perm(list, 0, N-1, result);
+    return *result;
 }
 int main() 
 {     
     int result;
-    result = countArrangement(1);
-    printf("%d\n", result);
+    result = countArrangement(13);
+    printf("%d\n", count);
     return 0; 
 } 
 /*
