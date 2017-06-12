@@ -5,6 +5,7 @@ int findLUSlength(char* a, char* b)
         return -1;
     return strlen(a)>strlen(b)?strlen(a):strlen(b);
 }
+
 int main() 
 {     
    int result;
