@@ -28,21 +28,13 @@ treeNode* createNode(int val)
 }
 treeNode* createTree()
 {
-    ptreeNode p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11;
+    ptreeNode p1,p2,p3;
     p1 = createNode(1);
     p2 = createNode(2);
     p3 = createNode(3);
-    p4 = createNode(4);
-    p5 = createNode(5);
-    p6 = createNode(6);
-    p7 = createNode(7);
 
     p1->left = p2;
     p1->right = p3;
-    p2->left = p4;
-    p3->left = p5;
-    p3->right = p6;
-    p5->left = p7;
     return p1;
 }
 
@@ -95,7 +87,7 @@ int* largestValues(struct TreeNode* root, int *returnSize)
     maxnum = (int*)malloc(sizeof(int)*depth);
     for(i=0;i<depth;i++)
     {
-        maxnum[i] = 0;
+        maxnum[i] = -2147483648;
     }
     treewidth(root,maxnum);
     return maxnum;
