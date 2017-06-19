@@ -54,12 +54,16 @@ int treewidth(ptreeNode tree, int* maxnum)
     static int i;
     if(tree)
     {
-        /*
         if(maxnum[i]<tree->val)
             maxnum[i] = tree->val;
-        */
-        printf("%d\n", tree->val);
-        i++;
+        if(i==0)
+        {
+            i++;
+        }
+        else
+        {
+            i++;
+        }
         if(tree->left)
         {
             treewidth(tree->left, maxnum);
