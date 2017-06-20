@@ -3,7 +3,7 @@
 bool checkPerfectNumber(int num) 
 {
     int sum = 0;
-    int tmp = num-1; 
+    int tmp = num/2; 
     if(num==0)
         return 0;
     if(num<0)
