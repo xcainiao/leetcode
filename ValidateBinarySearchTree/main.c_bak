@@ -1,0 +1,163 @@
+#include <stdio.h>
+/*
+        1
+       / \
+      2   3
+     /   / \
+    4   5   6
+      /    
+     7   
+
+*/
+#define bool int
+typedef struct TreeNode  {
+ int val;
+ struct TreeNode  *left;
+ struct TreeNode  *right;
+} treeNode, *ptreeNode;
+
+
+treeNode* createNode(int val)
+{
+    ptreeNode node; 
+    node = (ptreeNode)malloc(sizeof(treeNode));
+    node->val = val;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+treeNode* createTree()
+{
+    ptreeNode p1,p2,p3,p4,p5;
+    p1 = createNode(3);
+    p2 = createNode(30);
+    p3 = createNode(10);
+    p4 = createNode(15);
+    p5 = createNode(45);
+
+    p1->right = p2;
+    p2->left = p3;
+    p3->right = p4;
+    p4->right = p5;
+    
+    return p1;
+}
+
+int treedepth(ptreeNode tree)
+{
+    int rightdepth = 0;
+    int leftdepth = 0;
+    if(!tree)
+        return 0;
+    leftdepth = treedepth(tree->left);
+    rightdepth = treedepth(tree->right);
+    return leftdepth>rightdepth?leftdepth+1:rightdepth+1;
+}
+
+int treewidth(ptreeNode tree, int flag)
+{   
+    static int i;
+    static int root;
+    if(!flag)
+    {
+        root = tree->val;
+        flag = 1;
+    }
+    if(tree)
+    {
+        /*
+        printf("root----%d\n", root);
+        printf("c root----%d\n", tree->val);
+        printf("left----%d\n", tree->left->val);
+        printf("right----%d\n", tree->right->val);
+        */
+        if(tree->left!=NULL && tree->right!=NULL)
+        {
+            /*
+            printf("root----%d\n", root);
+            printf("c root----%d\n", tree->val);
+            printf("left----%d\n", tree->left->val);
+            printf("right----%d\n", tree->right->val);
+            */
+            if(tree->left->val>=tree->val || tree->right->val<=tree->val)
+            {
+                return 0;
+            }
+            else 
+            {
+                if(tree->val > root)
+                {
+                    if(tree->left->val <=root)
+                    {
+                        return 0;
+                    }
+                }
+                else if(tree->val < root)
+                {
+                    if(tree->right->val >= root)
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+        else if(tree->right != NULL)
+        {
+            printf("c root----%d\n", tree->val);
+            if(tree->right->val<=tree->val)
+                return 0;
+            else
+            {
+                if(tree->val < root)
+                {
+                    if(tree->right->val >=root)
+                        return 0;
+                }
+            }
+        }
+        else if(tree->left != NULL)
+        {
+            printf("c root----%d\n", tree->val);
+            if(tree->left->val>=tree->val)
+                return 0;
+            else
+            {
+                if(tree->val > root)
+                {
+                    if(tree->left->val <=root)
+                        return 0;
+                }
+            }
+        }
+        //printf("%d\n", tree->val);
+        i++;
+        if(tree->left)
+        {
+            if(!treewidth(tree->left, 1))
+                return 0;
+            i--;
+        }
+        if(tree->right)
+        {
+            if(!treewidth(tree->right, 1))
+                return 0;
+            i--;
+        }
+    }
+    return 1;
+}
+bool isValidBST(struct TreeNode* tree) 
+{
+    int flag = 0;
+    return treewidth(tree, flag);
+}
+int main() 
+{   
+    int i;
+    int result;
+    int size;
+    ptreeNode tree;
+    tree = createTree();
+    result = isValidBST(tree);
+    printf("%d\n", result);
+} 
